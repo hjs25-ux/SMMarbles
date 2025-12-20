@@ -40,10 +40,12 @@ int smmObj_genFest(char* name);
 
 char* smmObj_getName(int node_nr);
 int smmObj_getType(int node_nr);
-char* smmObj_getTypeName(int node_nr);
+int smmObj_getEnergy(int node_nr);
+char* smmObj_getNodeName(int node_type);
 
 
 //member retrieving
+
 
 
 //element to string
