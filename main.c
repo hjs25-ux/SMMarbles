@@ -114,9 +114,10 @@ int main(int argc, const char * argv[]) {
     }
     
     printf("\n\nReading food card component......\n");
-    while () //read a food parameter set
+    while ( fscanf(fp, "%s %i", name, &energy) == 2) //read a food parameter set
     {
         //store the parameter set
+        food_nr = smmObj_genFood(name, energy);
     }
     fclose(fp);
     printf("Total number of food cards : %i\n", food_nr);
@@ -131,9 +132,10 @@ int main(int argc, const char * argv[]) {
     }
     
     printf("\n\nReading festival card component......\n");
-    while () //read a festival card string
+    while (fscanf(fp, "%s", name) == 1) //read a festival card string
     {
         //store the parameter set
+        festival_nr = smmObj_genFest(name);
     }
     fclose(fp);
     printf("Total number of festival cards : %i\n", festival_nr);
@@ -150,8 +152,9 @@ int main(int argc, const char * argv[]) {
     generatePlayers();
     */
     
+    #endif
     //3. SM Marble game starts ---------------------------------------------------------------------------------
-    while () //is anybody graduated?
+    while ( cnt < 5) //is anybody graduated?
     {
         int die_result;
         
@@ -163,6 +166,12 @@ int main(int argc, const char * argv[]) {
         
         //4-3. go forward
         //goForward();
+        //pos = pos + 2;
+        pos = (pos + rand()%6+1)%board_nr;
+        printf("node : %s, type : %i (%s)\n", smmObj_getName(pos),
+        smmObj_getType(pos),
+        smmObj_getTypeName(pos)
+        );
 
 		//4-4. take action at the destination node of the board
         //actionNode();
@@ -170,7 +179,6 @@ int main(int argc, const char * argv[]) {
         //4-5. next turn
         
     }
-    #endif
     
     system("PAUSE");
     return 0;

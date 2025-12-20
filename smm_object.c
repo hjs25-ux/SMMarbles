@@ -32,17 +32,24 @@ static char smmNodeName[MAX_NODETYPE][MAX_CHARNAME]=
        "festival"         
 };
 
-static int smm_nodeNr=0;
+static int smm_nodeNr = 0;
 static char smm_name[MAX_NODENR][MAX_CHARNAME];
 static int smm_type[MAX_NODENR];
 static int smm_credit[MAX_NODENR];
 static int smm_energy[MAX_NODENR];
 
+static int smm_foodNr = 0;
+static char smm_foodName[MAX_NODENR][MAX_CHARNAME];
+static int smm_foodEnergy[MAX_NODENR];
+
+static int smm_festNr = 0;
+static char smm_festName[MAX_NODENR][MAX_CHARNAME];
+
 
 
 
 //object generation
-int smmObj_genNode(char* name, int type, int credit, int energy)
+int smmObj_genNode(char* name, int type, int credit, int energy) //node group Çü¼º  
 {
     strcpy(smm_name[smm_nodeNr], name);
     smm_type[smm_nodeNr] = type;
@@ -54,9 +61,42 @@ int smmObj_genNode(char* name, int type, int credit, int energy)
     return (smm_nodeNr);
 }
 
+int smmObj_genFood(char* name, int energy)
+{
+    strcpy(smm_foodName[smm_foodNr], name);
+    smm_foodEnergy[smm_foodNr] = energy;
+    
+    smm_foodNr++;
+    
+    return (smm_foodNr);
+}
+
+int smmObj_genFest(char* name)
+{
+    strcpy(smm_festName[smm_festNr], name);
+    
+    smm_festNr++;
+    
+    return smm_festNr;
+}
+
 
 
 //member retrieving
+char* smmObj_getName(int node_nr)
+{
+      return (smm_name[node_nr]);
+}
+
+int smmObj_getType(int node_nr)
+{
+      return (smm_type[node_nr]);
+}
+
+char* smmObj_getTypeName(int node_nr)
+{
+      return (smmNodeName[smm_type[node_nr]]);
+}
 
 
 #if 0
