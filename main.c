@@ -79,8 +79,10 @@ void printPlayerStatus(void)
      int i;
      for (i<0;i<smm_player_nr;i++)
      {
+         smmObj_board_t* ptr = (smmObj_board_t*)smmObj_getNodePtr(smm_players[i].pos);
          printf("%s - position: %i(%s), credit: %i, energy: %i\n", 
-                 smm_players[i].name, smm_players[i].pos, smmObj_getNodeName(smm_players[i].pos), smm_players[i].credit, smm_players[i].energy);
+                 smm_players[i].name, smm_players[i].pos, ptr->name,
+                 smm_players[i].credit, smm_players[i].energy);
      }
 }
 
@@ -133,25 +135,35 @@ void actionNode(int player)
      printf(" --> player%i pos: %i, type : %s, credit : %i, energy : %i\n", 
               player, smm_players[player].pos, smmObj_getTypeName(type), credit, energy);
      
-     switch(type)
+     switch(ptr->type)
      {
         case SMMNODE_TYPE_LECTURE:
-             smm_players[player].credit += credit;
-             smm_players[player].energy -= energy;
+             smm_players[player].credit += ptr->credit;
+             smm_players[player].energy -= ptr->energy;
+             printf(" <LECTURE> credit +%i, energy -%i\n", ptr->credit, ptr->energy);
              break;
              
         case SMMNODE_TYPE_RESTAURANT:
-             smm_players[player].energy += energy;
+             smm_players[player].energy += ptr->energy;
+             printf(" <RESTAURANT> energy +%i\n", ptr->energy);
              break;         
              
         case SMMNODE_TYPE_LABORATORY:    
              break;
                  
         case SMMNODE_TYPE_HOME:
-             smm_players[player].energy += energy;
-             if (smm_players[player].credit <= GRADUATE_CREDIT) //학점 이수 다하면 졸업
+             smm_players[player].energy += ptr->energy;
+             printf(" HOME SWEET HOME!!!!! energy +%i\n", ptr->energy);
+           
+             if (smm_players[player].credit >= GRADUATE_CREDIT) //학점 이수 다하면 졸업
              {
                  smm_players[player].flag_graduated = 1;
+                 printf(" -> <CONGRATULATIONS!> %s graduate! GAME OVER\n");
+             }
+             else
+             {
+                 int need_credit = GRADUATE_CREDIT - smm_players[player].credit;
+                 printf(" -> <KEEP GOING> Still short of credit. (left: %i)\n", need_credit); 
              }
              break;
                             
@@ -159,11 +171,11 @@ void actionNode(int player)
              break;
                     
         case SMMNODE_TYPE_FOODCHANCE:
-             smm_players[player].energy += energy;
+             smm_players[player].energy += ptr->energy;
              break;
                       
         case SMMNODE_TYPE_FESTIVAL:
-             smm_players[player].energy += energy;
+             smm_players[player].energy += ptr->energy;
              break;
                         
         //case lecture:
