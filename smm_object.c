@@ -33,20 +33,35 @@ static char smmNodeName[MAX_NODETYPE][MAX_CHARNAME]=
 };
 
 static int smm_nodeNr = 0;
+
+#if 0
 static char smm_name[MAX_NODENR][MAX_CHARNAME];
 static int smm_type[MAX_NODENR];
 static int smm_credit[MAX_NODENR];
 static int smm_energy[MAX_NODENR];
+#endif
 
+typedef struct 
+{
+        char name[MAX_CHARNAME];
+        int type;
+        int credit;
+        int energy;
+} smmObj_board_t; //means type
+
+static smmObj_board_t smmObj_board[MAX_NODENR];
+
+
+#if 0
 static int smm_foodNr = 0;
 static char smm_foodName[MAX_NODENR][MAX_CHARNAME];
 static int smm_foodEnergy[MAX_NODENR];
 
 static int smm_festNr = 0;
 static char smm_festName[MAX_NODENR][MAX_CHARNAME];
+#endif
 
-
-
+//structure instance array definition
 
 //object generation
 int smmObj_genNode(char* name, int type, int credit, int energy) //node group Çü¼º  
