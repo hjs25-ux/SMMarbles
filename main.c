@@ -46,7 +46,7 @@ void printGrades(int player); //print all the grade history of the player
 #endif
 
 
-int isGraduated(void); //check if any player is graduated
+int isGraduated(void) //check if any player is graduated
 {
     int i;
     for(i=0;i<smm_player_nr;i++)
@@ -118,9 +118,8 @@ int rolldie(int player)
         printGrades(player);
     
     return (rand()%MAX_DIE + 1);
-}
 #endif
-
+}
 
 
 //action code when a player stays at a node
@@ -156,9 +155,11 @@ void actionNode(int player)
              break;
                     
         case SMMNODE_TYPE_FOODCHANCE:
+             smm_players[player].energy += energy;
              break;
                       
         case SMMNODE_TYPE_FESTIVAL:
+             smm_players[player].energy += energy;
              break;
                         
         //case lecture:
@@ -284,7 +285,6 @@ int main(int argc, const char * argv[])
         //actionNode();
         
         //4-5. next turn
-        cnt++;
         turn = (turn + 1)%smm_player_nr;
         
     }
