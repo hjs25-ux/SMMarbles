@@ -26,6 +26,8 @@ static char smmObj_nodeName[MAX_NODETYPE][MAX_CHARNAME]=
 };
 
 static int smmObj_nodeNr = 0;
+static int smmObj_foodNr = 0;
+static int smmObj_festivalNr;
 
 typedef struct 
 {
@@ -48,13 +50,13 @@ typedef struct
 
 //structure instance array definition
 static smmObj_board_t smmObj_board[MAX_NODENR];
-static int smm_nodeNr = 0;
+static int smmObj_nodeNr = 0;
 
 static smmObj_food_t smmObj_food[MAX_NODENR];
-static int smm_foodNr = 0;
+static int smmObj_foodNr = 0;
 
-static smmObj_festival_t smmObj_fest[MAX_NODENR];
-static int smm_festivalNr = 0;
+static smmObj_festival_t smmObj_festival[MAX_NODENR];
+static int smmObj_festivalNr = 0;
 
 
 
@@ -81,9 +83,9 @@ int smmObj_genFood(char* name, int energy)
     return (smmObj_foodNr);
 }
 
-int smmObj_genFest(char* name)
+int smmObj_genFestival(char* name)
 {
-    strcpy(smmObj_festival[smmObj_festNr].name, name);
+    strcpy(smmObj_festival[smmObj_festivalNr].name, name);
     
     smmObj_festivalNr++;
     
@@ -95,22 +97,22 @@ int smmObj_genFest(char* name)
 //member retrieving
 char* smmObj_getNodeName(int node_nr)
 {
-      return (smmObj_board[smm_nodeNr].name);
+      return (smmObj_board[node_nr].name);
 }
 
 int smmObj_getNodeType(int node_nr)
 {
-      return (smmObj_board[smm_nodeNr].type);
+      return (smmObj_board[node_nr].type);
 }
 
 int smmObj_getNodeCredit(int node_nr)
 {
-      return (smmObj_board[smm_nodeNr].credit);
+      return (smmObj_board[node_nr].credit);
 }
 
 int smmObj_getNodeEnergy(int node_nr)
 {
-      return (smmObj_board[smm_nodeNr].energy);
+      return (smmObj_board[node_nr].energy);
 }
 
 char* smmObj_getTypeName(int node_type)

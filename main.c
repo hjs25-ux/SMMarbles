@@ -237,7 +237,7 @@ int main(int argc, const char * argv[])
     while (fscanf(fp, "%s", name) == 1) //read a festival card string
     {
         //store the parameter set
-        smm_festival_nr = smmObj_genFest(name);
+        smm_festival_nr = smmObj_genFestival(name);
     }
     fclose(fp);
     printf("Total number of festival cards : %i\n", smm_festival_nr);
