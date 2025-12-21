@@ -11,7 +11,27 @@
 
 #define MAX_NODENR      100
 #define MAX_NODETYPE    7
-#define MAX_GRADE       9
+#define MAX_GRADE       13
+
+#define OBJTYPE_BOARD      0
+#define OBJTYPE_GRADE      1
+#define OBJTYPE_FOOD       2
+#define OBJTYPE_FESTIVAl   3
+
+#define GRADE_Ap           0
+#define GRADE_Az           1
+#define GRADE_Am           2
+#define GRADE_Bp           3
+#define GRADE_Bz           4
+#define GRADE_Bm           5
+#define GRADE_Cp           6
+#define GRADE_Cz           7
+#define GRADE_Cm           8
+#define GRADE_Dp           9
+#define GRADE_Dz           10
+#define GRADE_Dm           11
+#define GRADE_F            12
+
 
 
 static char smmObj_nodeName[MAX_NODETYPE][MAX_CHARNAME]=
@@ -25,17 +45,34 @@ static char smmObj_nodeName[MAX_NODETYPE][MAX_CHARNAME]=
        "festival"         
 };
 
-static int smmObj_nodeNr = 0;
-static int smmObj_foodNr = 0;
-static int smmObj_festivalNr;
+static char smmObj_gradeName[13][MAX_CHARNAME]=
+{
+       "Ap",
+       "Az",
+       "Am",
+       "Bp",
+       "Bz",
+       "Bm",
+       "Cp",
+       "Cz",
+       "Cm",
+       "Dp",
+       "Dz",
+       "Dm",
+       "F"
+};
 
+//structure type definition
 typedef struct 
 {
         char name[MAX_CHARNAME];
+        int objType;
         int type;
         int credit;
         int energy;
-} smmObj_board_t; //means type
+        int grade;    
+} smmObj_object_t; 
+
 
 typedef struct
 {
@@ -48,58 +85,38 @@ typedef struct
         char name[MAX_CHARNAME];
 } smmObj_festival_t;
 
-//structure instance array definition
-static smmObj_board_t smmObj_board[MAX_NODENR];
-static int smmObj_nodeNr = 0;
-
-static smmObj_food_t smmObj_food[MAX_NODENR];
-static int smmObj_foodNr = 0;
-
-static smmObj_festival_t smmObj_festival[MAX_NODENR];
-static int smmObj_festivalNr = 0;
-
 
 
 //object generation
-int smmObj_genNode(char* name, int type, int credit, int energy) //node group 형성  
+void* smmObj_genObject(char* name, int objType, int type, int credit, int energy, int grade) //node group 형성  
 {
-    strcpy(smmObj_board[smmObj_nodeNr].name, name);
-    smmObj_board[smmObj_nodeNr].type = type;
-    smmObj_board[smmObj_nodeNr].credit = credit;
-    smmObj_board[smmObj_nodeNr].energy = energy;
+    smmObj_object_t* ptr;
+    ptr = (smmObj_object_t*)malloc(sizeof(smmObj_object_t));
     
-    smmObj_nodeNr++;
+    strcpy(ptr->name, name);
+    ptr->type = type;
+    ptr->objType = objType;
+    ptr->credit = credit;
+    ptr->energy = energy;
+    ptr->grade = grade;
     
-    return (smmObj_nodeNr);
+    return ((void*)ptr);
 }
 
-int smmObj_genFood(char* name, int energy)
-{
-    strcpy(smmObj_food[smmObj_foodNr].name, name);
-    smmObj_food[smmObj_foodNr].energy = energy;
-    
-    smmObj_foodNr++;
-    
-    return (smmObj_foodNr);
-}
+//food도 동일하게 형성  
+//festival도 동일하게 형성  
 
-int smmObj_genFestival(char* name)
-{
-    strcpy(smmObj_festival[smmObj_festivalNr].name, name);
-    
-    smmObj_festivalNr++;
-    
-    return (smmObj_festivalNr);
-}
 
 
 
 //member retrieving
-char* smmObj_getNodeName(int node_nr)
+char* smmObj_getNodeName(void *ptr)
 {
-      return (smmObj_board[node_nr].name);
+      smmObj_object_t* objPtr = (smmObj_object_t*)ptr;
+      return (objPtr->name);
 }
 
+/*
 int smmObj_getNodeType(int node_nr)
 {
       return (smmObj_board[node_nr].type);
@@ -119,7 +136,7 @@ char* smmObj_getTypeName(int node_type)
 {
       return (smmObj_nodeName[node_type]);
 }
-
+*/
 
 #if 0
 //element to string

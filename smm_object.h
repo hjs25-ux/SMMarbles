@@ -26,6 +26,11 @@
 #define SMMNODE_TYPE_FOODCHANCE         5
 #define SMMNODE_TYPE_FESTIVAL           6
 
+#define OBJTYPE_BOARD                   0
+#define OBJTYPE_GRADE                   1
+#define OBJTYPE_FOOD                    2
+#define OBJTYPE_FESTIVAL                3
+
 /* grade :
     Ap,
     Az,
@@ -41,10 +46,7 @@
 
 
 //object generation
-int smmObj_genNode(char* name, int type, int credit, int energy);
-int smmObj_genFood(char* name, int energy);
-int smmObj_genFestival(char* name);
-
+void* smmObj_genObject(char* name, int objType, int type, int credit, int energy, int grade);
 char* smmObj_getNodeName(int node_nr);
 int smmObj_getNodeType(int node_nr);
 int smmObj_getNodeEnergy(int node_nr);

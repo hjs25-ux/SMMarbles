@@ -31,9 +31,8 @@ typedef struct
         int flag_graduated;
 } smm_player_t;
 
-smm_player_t smm_players[MAX_PLAYER];
+smm_player_t *smm_players;
 
-void generatePlayers(int n, int initEnergy); //generate a new player
 void printPlayerStatus(void); //print all player status at the beginning of each turn
 
 //function prototypes
@@ -85,10 +84,12 @@ void printPlayerStatus(void)
      }
 }
 
-#if 0
-void generatePlayers(int n, in initEnergy) //generate a new player
+void generatePlayers(int n, int initEnergy) //generate a new player
 {
      int i;
+     
+     smm_players = (smm_player_t*)malloc(n*sizeof(smm_player_t));
+     
      for (i=0;i<n;i++)
          {
          smm_players[i].pos = 0;
@@ -102,7 +103,7 @@ void generatePlayers(int n, in initEnergy) //generate a new player
          
          }
 }
-#endif
+
 
 
 int rolldie(int player)
@@ -126,8 +127,11 @@ int rolldie(int player)
 void actionNode(int player)
 {
      int type =smmObj_getNodeType(smm_players[player].pos);
-     int credit = smmObj_getNodeCredit(player);
-     int energy = smmObj_getNodeEnergy(player);
+     int credit = smmObj_getNodeCredit(smm_players[player].pos);
+     int energy = smmObj_getNodeEnergy(smm_players[player].pos);
+     
+     printf(" --> player%i pos: %i, type : %s, credit : %i, energy : %i\n", 
+              player, smm_players[player].pos, smmObj_getTypeName(type), credit, energy);
      
      switch(type)
      {
@@ -200,8 +204,10 @@ int main(int argc, const char * argv[])
     while ( fscanf(fp, "%s %i %i %i", name, &type, &credit, &energy) == 4) //read a node parameter set
     {
         //store the parameter set
-        //printf("%s %i %i %i\n", name, type, credit, energy);
-        smm_board_nr = smmObj_genNode(name, type, credit, energy);
+        void* ptr;
+        printf("%s %i %i %i\n", name, type, credit, energy);
+        ptr = smmObj_genObject(name, SMMNODE_OBJTYPE_BOARD, type, credit, energy, 0);
+        smmdb_addTail(int list_nr, ptr);
     }
     fclose(fp);
     printf("Total number of board nodes : %i\n", smm_board_nr);
@@ -282,13 +288,14 @@ int main(int argc, const char * argv[])
 
 
 		//4-4. take action at the destination node of the board
-        //actionNode();
+        actionNode(turn);
         
         //4-5. next turn
         turn = (turn + 1)%smm_player_nr;
         
     }
     
+    free(smm_player);
     system("PAUSE");
     return 0;
 }
